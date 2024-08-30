@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Succession/Transition Planning Benchmark Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .question h3 {
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+        #finalScore {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        #report {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+            display: none;
+        }
+        .cta {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Succession/Transition Planning Benchmark Tool</h1>
+
+    <!-- Question 1 -->
+    <div class="question">
+        <h3>1) I have a plan for retirement and/or selling the practice as part of an exit strategy.</h3>
+        <input type="radio" name="q1" value="10"> Yes, I work with other professionals to assist with the strategy.<br>
+        <input type="radio" name="q1" value="7"> Yes, but I’m not sure if it is satisfactory.<br>
+        <input type="radio" name="q1" value="3"> No. I’m years away from retirement.<br>
+        <input type="radio" name="q1" value="0"> I thought about it, but haven’t done much about it.<br>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question">
+        <h3>2) Succession/transition (exit) planning is a high priority for me.</h3>
+        <input type="radio" name="q2" value="3"> No, I have many years of clinical practice left.<br>
+        <input type="radio" name="q2" value="0"> No, I have much higher priorities.<br>
+        <input type="radio" name="q2" value="10"> Absolutely, I’m looking to exit the business within the next 5 years.<br>
+        <input type="radio" name="q2" value="7"> Yes, but I’m not sure on how best to proceed.<br>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question">
+        <h3>3) I am clear about the similarities and differences between succession and transition (exit) planning.</h3>
+        <input type="radio" name="q3" value="7"> Yes. I have researched the subject.<br>
+        <input type="radio" name="q3" value="10"> Yes. I have sought out professional help to assist in this area.<br>
+        <input type="radio" name="q3" value="3"> I don’t know much about succession and transition planning.<br>
+        <input type="radio" name="q3" value="0"> I don’t think it is important at this stage of my career.<br>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question">
+        <h3>4) Your business is registered as a professional corporation.</h3>
+        <input type="radio" name="q4" value="10"> Yes, it has proved to be a good business decision.<br>
+        <input type="radio" name="q4" value="10"> No. It is not in my interests, based on professional advice.<br>
+        <input type="radio" name="q4" value="3"> No, I don’t know if it’s a good decision to or not.<br>
+        <input type="radio" name="q4" value="3"> Yes, but I have not yet seen the value of doing so.<br>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question">
+        <h3>5) Do you have any outstanding long-term debt pertaining to the business that might affect your ability to exit the practice?</h3>
+        <input type="radio" name="q5" value="10"> Nothing of great significance.<br>
+        <input type="radio" name="q5" value="3"> I am concerned that may be a factor.<br>
+        <input type="radio" name="q5" value="0"> I’ll deal with that when I sell the business.<br>
+    </div>
+
+    <!-- Question 6 -->
+    <div class="question">
+        <h3>6) I work with business professionals (e.g., accountant, lawyer) who have expertise with healthcare business acquisitions and sales.</h3>
+        <input type="radio" name="q6" value="10"> I work with business professionals who meet these needs.<br>
+        <input type="radio" name="q6" value="3"> I have some basic services I use such as bookkeeping, but they are not necessarily specific to this area.<br>
+        <input type="radio" name="q6" value="0"> I'm not sure.<br>
+        <input type="radio" name="q6" value="7"> There are business professionals I can call on within the firms I am currently associated with.<br>
+    </div>
+
+    <!-- Question 7 -->
+    <div class="question">
+        <h3>7) There are business-critical tasks/duties that are solely dependent on myself.</h3>
+        <input type="radio" name="q7" value="3"> Yes, there are several tasks and functions I perform as part of the business that are reliant on me.<br>
+        <input type="radio" name="q7" value="7"> Yes, but I am developing strategies to address the situation.<br>
+        <input type="radio" name="q7" value="10"> No. I have strategies in place that allow the business to run smoothly while I am away.<br>
+        <input type="radio" name="q7" value="0"> Yes. the practice is totally dependent on me.<br>
+    </div>
+
+    <!-- Submit Button -->
+    <button onclick="generateReport()">Submit</button>
+
+    <!-- Final Score and Report -->
+    <div id="finalScore"></div>
+    <div id="report"></div>
+
+    <script>
+    function generateReport() {
+        var totalScore = 0;
+        var reportText = "";
+
+        // Capture the client's answers and provide corresponding feedback
+        for (var i = 1; i <= 7; i++) {
+            var selectedAnswer = document.querySelector('input[name="q' + i + '"]:checked');
+            if (selectedAnswer) {
+                var answerValue = parseInt(selectedAnswer.value);
+                totalScore += answerValue;
+
+                // Provide detailed feedback for each question
+                if (i === 1) {
+                    reportText += "<p><strong>Question 1: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "Great! Involving key professionals in assisting with the strategy is a smart move. Being proactive and having an exit strategy from early on helps you define your goals and vision for your business. It can increase the value of your practice and enable you to be ready should you need to exit earlier. You can also be ready for any legal or tax implications.</p>";
+                    } else if (answerValue === 7) {
+                        reportText += "You may want to consider consulting with other health professionals who have been through this process in addition to involving some key professionals, such as a lawyer, accountant, and financial adviser who specialize in exit strategies for health professionals. Each situation is different and requires a unique perspective.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "If you consider yourself years away from retirement, the sooner the better. Being proactive and having an exit strategy from early on helps you define your goals and vision for your business. It can increase the value of your practice and enable you to be ready should you need to exit earlier, perhaps for health or personal reasons.</p>";
+                    } else {
+                        reportText += "It's important that you start the planning process as soon as possible. Being proactive and having an exit strategy from early on helps you define your goals and vision for your business. It can increase the value of your practice and enable you to be ready should you need to exit earlier. You can also be ready for any legal or tax implications.</p>";
+                    }
+                }
+
+                if (i === 2) {
+                    reportText += "<p><strong>Question 2: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "Great, that this is a high priority for you. Even five years before retirement is leaving it a little late but still doable. Having an exit strategy is essential if you are to extract the full value of your business and transition both from a business and personal perspective.</p>";
+                    } else if (answerValue === 7) {
+                        reportText += "That’s great that it's a high priority and on your radar. Having an exit strategy is essential. Normally we think that an exit would entail retirement but what if something unexpected requires you to leave/sell the practice such as disability or disagreements? Making sure you are ready puts you in a much better position.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "Just because retirement or exiting the practice for other reasons may seem a long way off, circumstances can dramatically change your ability to manage your practice; therefore, making this a higher priority is to your advantage.</p>";
+                    } else {
+                        reportText += "You need to make this a higher priority. Having an exit strategy is essential. A lack of planning can leave practice owners vulnerable to unexpected and unwelcome circumstances such as disability, family illness or legal disagreements.</p>";
+                    }
+                }
+
+                if (i === 3) {
+                    reportText += "<p><strong>Question 3: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "Great. Having a team of professionals that you are comfortable working with and who are both knowledgeable and experienced in succession/transition is essential to ensure a successful outcome.</p>";
+                    } else if (answerValue === 7) {
+                        reportText += "Great start. As you know, succession planning is the process of identifying and developing internal employees to fill key leadership positions within a company with the goal of ensuring that the practice can continue to operate smoothly even if key leaders leave unexpectedly.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "Succession planning is the process of identifying and developing internal employees to fill key leadership positions within a company with the goal of ensuring that the practice can continue to operate smoothly even if key leaders leave unexpectedly. It's never too early to start planning!</p>";
+                    } else {
+                        reportText += "It's never too early to start thinking about succession/transition (exit) planning. By planning well ahead for the eventual sale or transfer of your business, you can maximize its value and ensure a smooth transition for all parties involved.</p>";
+                    }
+                }
+
+                if (i === 4) {
+                    reportText += "<p><strong>Question 4: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "Glad this has worked out for you. Being a registered professional corporation is often thought of as they way to go, but it’s not for everyone. Whilst providing some tax benefits it also has some complex reporting requirements.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "An accountant knowledgeable about professional incorporation can advise you on this. Being a registered professional corporation is often thought of as the way to go, but it’s not for everyone. While providing some tax benefits, it also has some complex reporting requirements.</p>";
+                    } else {
+                        reportText += "Perhaps your business will not see any benefit and is best left as a sole proprietorship or partnership? Talk to an accountant who is knowledgeable about professional incorporation and can give you sound advice on this.</p>";
+                    }
+                }
+
+                if (i === 5) {
+                    reportText += "<p><strong>Question 5: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "That’s great. If you can minimize long-term debt, the value of the business will be reflected in the higher purchase price and ability to negotiate and sale agreements.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "If looking to sell the business in the next 5-10 years, long-term debt may be viewed as a risk and will be reflected in the value of the practice. Before you finance another piece of equipment or before you utilize a business line of credit, decide whether the increased risk is worth the potential decrease in value to your business.</p>";
+                    } else {
+                        reportText += "Ultimately the outstanding debt will either need to be paid off at the time of the sale, or factored into the sale which will be reflected in the value of the business. If you can minimize any long-term debt, the value of the business will be reflected in the higher purchase price and ability to negotiate and sale agreements.</p>";
+                    }
+                }
+
+                if (i === 6) {
+                    reportText += "<p><strong>Question 6: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "Having experienced and knowledgeable professionals at hand during a business sale is invaluable. It will give you the necessary expertise with the inevitable challenges while also providing confidence and help reduce stress at a critical time.</p>";
+                    } else if (answerValue === 7) {
+                        reportText += "That’s good. Seek recommendations from within the firms that you currently work with. Having experienced professionals at hand during a business sale is invaluable. It will give you confidence and reduce stress at an important time.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "You will almost certainly need to use more than basic services when considering and implementing an exit strategy. Having experienced professionals at hand during a business sale is invaluable.</p>";
+                    } else {
+                        reportText += "You will need to find out what experience and services your professionals have. Having experienced professionals at hand during a business sale is invaluable. It will give you confidence and reduce stress at an important time.</p>";
+                    }
+                }
+
+                if (i === 7) {
+                    reportText += "<p><strong>Question 7: </strong>";
+                    if (answerValue === 10) {
+                        reportText += "That’s great! You understand that your business should not rely on you to have sole knowledge of any one process or procedure. Delegating to another staff member or outside company with clear written procedures is an essential part of sound business practice and positions yourself for a smoother transition from the practice when that time comes.</p>";
+                    } else if (answerValue === 7) {
+                        reportText += "Keep working on this. Your business should not rely on you to have sole knowledge of any one process or procedure. You must delegate to another staff member or outside company and write it down as a procedure.</p>";
+                    } else if (answerValue === 3) {
+                        reportText += "Your business should not rely on you to have sole knowledge of any one process or procedure. You must delegate to another staff member or outside company and write it down as a procedure.</p>";
+                    } else {
+                        reportText += "It is very difficult to sell your business if it is totally dependent on you without risk of serious failure. Your business should not rely on you to have sole knowledge of any one process or procedure. You should consider delegating such tasks to another staff member or an outside company and be sure to develop specific procedures around each task or process.</p>";
+                    }
+                }
+            }
+        }
+
+        // Provide a summary based on the total score
+        if (totalScore >= 60) {
+            reportText += "<p>Overall, your succession/transition planning is on track. Keep up the good work, but there are always areas to improve, and we’re here to help you optimize further.</p>";
+        } else if (totalScore >= 40) {
+            reportText += "<p>Your succession/transition planning is progressing, but there are some key areas that could benefit from attention. Consider reaching out to us for a consultation to ensure your plan is comprehensive and effective.</p>";
+        } else {
+            reportText += "<p>It looks like your succession/transition planning could use significant improvement. We highly recommend contacting us for a comprehensive review and strategic advice to strengthen your plan.</p>";
+        }
+
+        // Add a call-to-action
+        reportText += '<div class="cta"><p><strong>Need help with your succession/transition planning?</strong> Contact us today for a personalized consultation and learn how we can help you create a solid plan for the future of your practice.</p></div>';
+
+        // Display the total score and the report
+        document.getElementById('finalScore').innerHTML = 'Your Total Score: ' + totalScore + ' / 70';
+        document.getElementById('report').innerHTML = reportText;
+        document.getElementById('report').style.display = 'block';
+    }
+    </script>
+
+</body>
+</html>
